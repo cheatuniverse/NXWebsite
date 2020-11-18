@@ -38,7 +38,7 @@ class License
 
     /**
      * @var Order
-     * @ORM\OneToOne(targetEntity=Order::class, inversedBy="license")
+     * @ORM\OneToOne(targetEntity=Order::class, mappedBy="license")
      */
     private $order;
 
