@@ -29,7 +29,7 @@ services:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD is not set or empty}
       - MYSQL_DATABASE=sylius_prod
       - MYSQL_USER=${DB_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD:?MYSQL_PASSWORD is not set or empty}
+      - MYSQL_PASSWORD=${DB_PASS}
     volumes:
       - ./docker/mysql/data:/var/lib/mysql:rw,delegated
     <<: *network
