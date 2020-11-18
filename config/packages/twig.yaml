@@ -3,7 +3,7 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     global:
-        client_download_url: '%env(CLIENT_URL)'%
+        client_download_url: '%env(CLIENT_URL)%'
 
 services:
     _defaults:
