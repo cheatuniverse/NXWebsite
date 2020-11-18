@@ -1,0 +1,26 @@
+{% if type is defined %}
+    {% set type = type ~ '-' %}
+{% else %}
+    {% set type = null %}
+{% endif %}
+
+<div class="w-1/2">
+    {{ form_row(form.firstName, sylius_test_form_attribute(type ~ 'first-name')) }}
+</div>
+<div class="w-1/2">
+    {{ form_row(form.lastName, sylius_test_form_attribute(type ~ 'last-name')) }}
+</div>
+<div class="flex py-4">
+    {{ form_row(form.street, sylius_test_form_attribute(type ~ 'street')) }}
+</div>
+
+{% include '@SyliusShop/Common/Form/_countryCode.html.twig' with {'form': form.countryCode} %}
+
+{% if form.provinceCode is defined %}
+    {{ form_errors(form) }}
+{% endif %}
+
+<div class="flex py-4">
+    {{ form_row(form.city, sylius_test_form_attribute(type ~ 'city')) }}
+    {{ form_row(form.postcode, sylius_test_form_attribute(type ~ 'postcode')) }}
+</div>

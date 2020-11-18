@@ -1,0 +1,57 @@
+version: '3.7'
+
+x-network:
+  &network
+  networks:
+    - nxclient_website
+
+services:
+  php:
+    image: quay.io/sylius/php:latest
+    depends_on:
+      - mysql
+    environment:
+      - APP_ENV=prod
+      - APP_DEBUG=0
+      - APP_SECRET=EDITME
+      - DATABASE_URL=mysql://${DB_USER}:${DB_PASS}@db/sylius_%kernel.environment%
+      - MAILER_URL=gmail://${MAILER_USER}:${MAILER_PASS}@localhost
+      - PHP_DATE_TIMEZONE=${PHP_DATE_TIMEZONE:-UTC}
+    volumes:
+      - ./var/sessions:/srv/sylius/var/sessions:rw
+      - ./public/media:/srv/sylius/public/media:rw
+    <<: *network
+
+  mysql:
+    image: percona:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD is not set or empty}
+      - MYSQL_DATABASE=sylius_prod
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:?MYSQL_PASSWORD is not set or empty}
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql:rw,delegated
+    <<: *network
+
+  nginx:
+    image: quay.io/sylius/nginx:latest
+    depends_on:
+      - php
+    volumes:
+      - ./public/media:/srv/sylius/public/media:ro
+    labels:
+      - traefik.http.routers.nxclient-website-nginx.entrypoints=web-secure
+      - traefik.http.routers.nxclient-website-nginx.rule=Host(`${DOMAIN_NAME}`, `www.${DOMAIN_NAME}`)
+      - traefik.http.routers.nxclient-website-nginx.tls=true
+      - traefik.http.routers.nxclient-website-nginx.tls.domains[0].main=${DOMAIN_NAME}
+      - traefik.http.routers.nxclient-website-nginx.tls.domains[0].sans=*.${DOMAIN_NAME}
+      - traefik.http.routers.nxclient-website-nginx.tls.certresolver=sample
+    <<: *network
+
+networks:
+  nxclient_website:
+    external: true
+
+volumes:
+  mysql-data:
+  public-media:

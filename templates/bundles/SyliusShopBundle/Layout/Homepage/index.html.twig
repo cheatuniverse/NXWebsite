@@ -1,0 +1,23 @@
+{% extends '@SyliusShop/layout.html.twig' %}
+
+{% block content %}
+    <div class="container pt-24 md:pt-36 mx-auto flex flex-wrap flex-col md:flex-row items-center">
+        <div class="flex flex-col w-full xl:w-2/5 justify-center lg:items-start overflow-y-hidden">
+            <h1 class="my-4 text-3xl md:text-5xl text-white opacity-75 font-bold leading-tight text-center md:text-left">
+                Try the
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-pink-500 to-purple-500">
+                      NXClient
+                    </span>,<br/>
+                the best cheat for hypixel
+            </h1>
+            {% include '@SyliusShop/Components/button.html.twig' with { classnames: 'lg:mt-8 mx-auto lg:ml-2 focus:outline-none mb-8', text: 'Download it' } %}
+        </div>
+        <div class="w-full xl:w-3/5 p-12 lg:p-4">
+            <img class="mx-auto w-full md:w-4/5 transform -rotate-6 transition hover:scale-105 duration-700 ease-in-out hover:rotate-6" src="/assets/shop/images/client.png" />
+        </div>
+        <div class="w-full text-white py-32">
+            <h2 class="text-3xl font-bold text-center">Buy one serial key to activate the NXClient</h2>
+            {{ render(url('sylius_shop_partial_product_index_latest', {'count': 1, 'template': '@SyliusShop/Layout/Homepage/_list.html.twig'})) }}
+        </div>
+    </div>
+{% endblock %}

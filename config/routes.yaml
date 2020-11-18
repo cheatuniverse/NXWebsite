@@ -1,0 +1,4 @@
+serial.validator:
+  path: /serial/validate
+  controller: App\Controller\SerialValidator
+  methods: [ POST ]

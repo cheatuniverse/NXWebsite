@@ -1,0 +1,12 @@
+<div class="flex flex-wrap">
+    <div>
+        <a href="{{ path('sylius_shop_homepage') }}">
+            {% include '@SyliusShop/Components/button.html.twig' with { text: '<i class="arrow left icon"></i> Back to the store' } %}
+        </a>
+    </div>
+    <div class="ml-auto">
+        <button type="submit" id="next-step"" {{ sylius_test_html_attribute('next-step') }}>
+        {% include '@SyliusShop/Components/button.html.twig' with { text: '<i class="arrow right icon"></i> Next' } %}
+        </button>
+    </div>
+</div>

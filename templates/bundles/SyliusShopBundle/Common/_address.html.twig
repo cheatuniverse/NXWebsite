@@ -1,0 +1,9 @@
+{% import "@SyliusUi/Macro/flags.html.twig" as flags %}
+
+<address {{ sylius_test_html_attribute('address-context', "%s %s"|format(address.firstName, address.lastName)) }}>
+    <strong {{ sylius_test_html_attribute('full-name ', "%s %s"|format(address.firstName, address.lastName)) }}>{{ address.firstName }} {{ address.lastName }}</strong><br>
+    {{ address.street }}<br/>
+    {{ address.city }}, {{ address.postcode }}<br/>
+    {{ flags.fromCountryCode(address.countryCode) }}
+    {{ address.countryCode|sylius_country_name|upper }}
+</address>

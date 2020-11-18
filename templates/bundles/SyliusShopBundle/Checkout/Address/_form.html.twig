@@ -1,0 +1,11 @@
+<div id="sylius-billing-address" {{ sylius_test_html_attribute('billing-address') }}>
+    {% include '@SyliusShop/Checkout/Address/_addressBookSelect.html.twig' %}
+    {% if form.customer is defined %}
+        <div class="flex flex-wrap">
+            {% include '@SyliusShop/Common/Form/_login.html.twig' with {'form': form.customer} %}
+        </div>
+    {% endif %}
+    {% include '@SyliusShop/Common/Form/_address.html.twig' with {'form': form.billingAddress, 'order': order, 'type': 'billing'} %}
+
+    {{ sylius_template_event('sylius.shop.checkout.address.billing_address_form', {'order': order}) }}
+</div>

@@ -1,0 +1,4 @@
+sylius_mailer:
+  sender:
+    name: My website
+    address: no-reply@my-website.com

@@ -1,0 +1,11 @@
+{{ form_start(form, {'action': path('sylius_shop_login_check'), 'attr': {'class': 'ui loadable form', 'novalidate': 'novalidate'}}) }}
+    {% include '@SyliusShop/Login/_form.html.twig' %}
+
+    {{ sylius_template_event('sylius.shop.login.form', {'form': form}) }}
+
+    {% include '@SyliusShop/Components/button.html.twig' with { text: 'sylius.ui.login'|trans, submit: true } %}
+
+    <a href="{{ path('sylius_shop_request_password_reset_token') }}" class="block pt-2">{{ 'sylius.ui.forgot_password'|trans }}</a>
+
+    <input type="hidden" name="_csrf_shop_security_token" value="{{ csrf_token('shop_authenticate') }}">
+{{ form_end(form, {'render_rest': false}) }}

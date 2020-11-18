@@ -1,0 +1,15 @@
+<div class="flex flex-wrap text-bold text-xl text-white">
+    <a href="{{ path('sylius_shop_homepage') }}">{{ 'sylius.ui.home'|trans }}</a>
+    {% if is_granted('ROLE_USER') %}
+        <a href="{{ path('sylius_shop_account_dashboard') }}" class="ml-auto">
+            <i class="fas fa-user-circle"></i>
+        </a>
+        <a href="{{ path('sylius_shop_logout') }}"
+           class="ml-2 sylius-logout-button" {{ sylius_test_html_attribute('logout-button') }}>
+                <i class="fas fa-sign-out-alt"></i>
+        </a>
+    {% else %}
+        <a href="{{ path('sylius_shop_login') }}" class="ml-auto">{{ 'sylius.ui.login'|trans }}</a>
+        <a href="{{ path('sylius_shop_register') }}" class="ml-2">{{ 'sylius.ui.register'|trans }}</a>
+    {% endif %}
+</div>

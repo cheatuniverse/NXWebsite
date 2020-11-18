@@ -1,0 +1,414 @@
+imports:
+    - { resource: "@SyliusCoreBundle/Resources/config/app/config.yml" }
+
+    - { resource: "@SyliusAdminBundle/Resources/config/app/config.yml" }
+    - { resource: "@SyliusAdminApiBundle/Resources/config/app/config.yml" }
+    - { resource: "@SyliusApiBundle/Resources/config/app/config.yaml" }
+
+    - { resource: "@SyliusShopBundle/Resources/config/app/config.yml" }
+
+parameters:
+    sylius_core.public_dir: '%kernel.project_dir%/public'
+
+winzou_state_machine:
+    sylius_order_payment:
+        callbacks:
+            after:
+                sylius_order_paid:
+                    on: ["pay"]
+                    do: ["@app.decorator.order.order_email_manager_shop", "sendConfirmationEmail"]
+                    args: ["object"]
+
+sylius_addressing:
+    resources:
+        address:
+            classes:
+                model: App\Entity\Addressing\Address
+        country:
+            classes:
+                model: App\Entity\Addressing\Country
+        province:
+            classes:
+                model: App\Entity\Addressing\Province
+        zone:
+            classes:
+                model: App\Entity\Addressing\Zone
+        zone_member:
+            classes:
+                model: App\Entity\Addressing\ZoneMember
+
+sylius_admin_api:
+    resources:
+        api_client:
+            classes:
+                model: App\Entity\AdminApi\Client
+        api_access_token:
+            classes:
+                model: App\Entity\AdminApi\AccessToken
+        api_refresh_token:
+            classes:
+                model: App\Entity\AdminApi\RefreshToken
+        api_auth_code:
+            classes:
+                model: App\Entity\AdminApi\AuthCode
+
+sylius_attribute:
+    resources:
+        product:
+            attribute:
+                classes:
+                    model: App\Entity\Product\ProductAttribute
+                translation:
+                    classes:
+                        model: App\Entity\Product\ProductAttributeTranslation
+            attribute_value:
+                classes:
+                    model: App\Entity\Product\ProductAttributeValue
+
+sylius_channel:
+    resources:
+        channel:
+            classes:
+                model: App\Entity\Channel\Channel
+sylius_core:
+    resources:
+        product_image:
+            classes:
+                model: App\Entity\Product\ProductImage
+        taxon_image:
+            classes:
+                model: App\Entity\Taxonomy\TaxonImage
+        product_taxon:
+            classes:
+                model: App\Entity\Product\ProductTaxon
+        channel_pricing:
+            classes:
+                model: App\Entity\Channel\ChannelPricing
+
+sylius_currency:
+    resources:
+        currency:
+            classes:
+                model: App\Entity\Currency\Currency
+        exchange_rate:
+            classes:
+                model: App\Entity\Currency\ExchangeRate
+
+sylius_customer:
+    resources:
+        customer:
+            classes:
+                model: App\Entity\Customer\Customer
+        customer_group:
+            classes:
+                model: App\Entity\Customer\CustomerGroup
+
+sylius_locale:
+    resources:
+        locale:
+            classes:
+                model: App\Entity\Locale\Locale
+
+sylius_order:
+    resources:
+        order:
+            classes:
+                model: App\Entity\Order\Order
+        order_item:
+            classes:
+                model: App\Entity\Order\OrderItem
+        order_item_unit:
+            classes:
+                model: App\Entity\Order\OrderItemUnit
+        adjustment:
+            classes:
+                model: App\Entity\Order\Adjustment
+        order_sequence:
+            classes:
+                model: App\Entity\Order\OrderSequence
+
+sylius_payment:
+    resources:
+        payment_method:
+            classes:
+                model: App\Entity\Payment\PaymentMethod
+            translation:
+                classes:
+                    model: App\Entity\Payment\PaymentMethodTranslation
+        payment:
+            classes:
+                model: App\Entity\Payment\Payment
+
+sylius_payum:
+    resources:
+        payment_security_token:
+            classes:
+                model: App\Entity\Payment\PaymentSecurityToken
+        gateway_config:
+            classes:
+                model: App\Entity\Payment\GatewayConfig
+
+sylius_ui:
+    events:
+        sylius.shop.layout.topbar:
+            blocks:
+                before_switchers_legacy:
+                    template: "@SyliusUi/Block/_legacySonataEvent.html.twig"
+                    priority: 35
+                    context:
+                        event: sylius.shop.layout.before_currency_switcher
+                currency_switcher:
+                    enabled: false
+                locale_switcher:
+                    enabled: false
+
+        sylius.shop.login.form:
+            blocks:
+                legacy:
+                    template: "@SyliusUi/Block/_legacySonataEvent.html.twig"
+                    context:
+                        event: sylius.shop.login.form
+
+        sylius.shop.register.form:
+            blocks:
+                legacy:
+                    template: "@SyliusUi/Block/_legacySonataEvent.html.twig"
+                    context:
+                        event: sylius.shop.register.form
+
+        sylius.shop.account.change_password.form:
+            blocks:
+                legacy:
+                    template: "@SyliusUi/Block/_legacySonataEvent.html.twig"
+                    context:
+                        event: sylius.shop.account.change_password.form
+
+        sylius.shop.account.profile.update.form:
+            blocks:
+                legacy:
+                    template: "@SyliusUi/Block/_legacySonataEvent.html.twig"
+                    context:
+                        event: sylius.shop.account.profile.update.form
+
+        sylius.shop.request_password_reset_token.form:
+            blocks:
+                legacy:
+                    template: "@SyliusUi/Block/_legacySonataEvent.html.twig"
+                    context:
+                        event: sylius.shop.request_password_reset_token.form
+
+        sylius.shop.account.address_book.create.form:
+            blocks:
+                legacy:
+                    template: "@SyliusUi/Block/_legacySonataEvent.html.twig"
+                    context:
+                        event: sylius.shop.account.address_book.create.form
+
+        sylius.shop.account.address_book.update.form:
+            blocks:
+                legacy:
+                    template: "@SyliusUi/Block/_legacySonataEvent.html.twig"
+                    context:
+                        event: sylius.shop.account.address_book.update.form
+
+        sylius.shop.checkout.sidebar:
+            blocks:
+                summary:
+                    enabled: false
+                support:
+                    enabled: false
+
+        sylius.shop.checkout.address.sidebar:
+            blocks:
+                before_summary_legacy:
+                    enabled: false
+                before_support_legacy:
+                    enabled: false
+                after_support_legacy:
+                    enabled: false
+
+        sylius.shop.checkout.steps:
+            blocks:
+                steps:
+                    enabled: false
+
+        sylius.shop.checkout.address.before_form:
+            blocks:
+                legacy:
+                    enabled: false
+
+        sylius.shop.checkout.complete.summary:
+            blocks:
+                before_legacy:
+                    enabled: false
+                content:
+                    enabled: false
+                after_legacy:
+                    enabled: false
+
+        sylius.shop.checkout.address.shipping_address_form:
+            blocks:
+                legacy:
+                    template: "@SyliusUi/Block/_legacySonataEvent.html.twig"
+                    context:
+                        event: sylius.shop.checkout.address.shipping_address_form
+
+
+        sylius.shop.cart.suggestions:
+            blocks:
+                before_legacy:
+                    enabled: false
+                content:
+                    enabled: false
+
+        sylius.shop.cart.coupon:
+            blocks:
+                before_legacy:
+                    enabled: false
+                content:
+                    enabled: false
+                after_legacy:
+                    enabled: false
+
+        sylius.shop.cart.summary:
+            blocks:
+                before_totals_legacy:
+                    enabled: false
+                totals:
+                    enabled: false
+                after_totals_legacy:
+                    enabled: false
+                checkout:
+                    template: "@SyliusShop/Cart/Summary/_checkout.html.twig"
+                    priority: 10
+
+        sylius.shop.homepage:
+            blocks:
+                banner:
+                    enabled: false
+                latest_products:
+                    enabled: false
+                latest_products_carousel:
+                    enabled: false
+                newsletter:
+                    enabled: false
+                products_grid:
+                    enabled: false
+                about_us:
+                    enabled: false
+
+sylius_product:
+    resources:
+        product:
+            classes:
+                model: App\Entity\Product\Product
+            translation:
+                classes:
+                    model: App\Entity\Product\ProductTranslation
+        product_variant:
+            classes:
+                model: App\Entity\Product\ProductVariant
+            translation:
+                classes:
+                    model: App\Entity\Product\ProductVariantTranslation
+        product_option:
+            classes:
+                model: App\Entity\Product\ProductOption
+            translation:
+                classes:
+                    model: App\Entity\Product\ProductOptionTranslation
+        product_option_value:
+            classes:
+                model: App\Entity\Product\ProductOptionValue
+            translation:
+                classes:
+                    model: App\Entity\Product\ProductOptionValueTranslation
+        product_association:
+            classes:
+                model: App\Entity\Product\ProductAssociation
+        product_association_type:
+            classes:
+                model: App\Entity\Product\ProductAssociationType
+            translation:
+                classes:
+                    model: App\Entity\Product\ProductAssociationTypeTranslation
+
+sylius_promotion:
+    resources:
+        promotion:
+            classes:
+                model: App\Entity\Promotion\Promotion
+        promotion_rule:
+            classes:
+                model: App\Entity\Promotion\PromotionRule
+        promotion_action:
+            classes:
+                model: App\Entity\Promotion\PromotionAction
+        promotion_coupon:
+            classes:
+                model: App\Entity\Promotion\PromotionCoupon
+
+sylius_review:
+    resources:
+        product:
+            review:
+                classes:
+                    model: App\Entity\Product\ProductReview
+
+sylius_shipping:
+    resources:
+        shipment:
+            classes:
+                model: App\Entity\Shipping\Shipment
+        shipping_method:
+            classes:
+                model: App\Entity\Shipping\ShippingMethod
+            translation:
+                classes:
+                    model: App\Entity\Shipping\ShippingMethodTranslation
+        shipping_category:
+            classes:
+                model: App\Entity\Shipping\ShippingCategory
+
+sylius_taxation:
+    resources:
+        tax_category:
+            classes:
+                model: App\Entity\Taxation\TaxCategory
+        tax_rate:
+            classes:
+                model: App\Entity\Taxation\TaxRate
+
+sylius_taxonomy:
+    resources:
+        taxon:
+            classes:
+                model: App\Entity\Taxonomy\Taxon
+            translation:
+                classes:
+                    model: App\Entity\Taxonomy\TaxonTranslation
+sylius_user:
+    resources:
+        admin:
+            user:
+                classes:
+                    model: App\Entity\User\AdminUser
+        shop:
+            user:
+                classes:
+                    model: App\Entity\User\ShopUser
+        oauth:
+            user:
+                classes:
+                    model: App\Entity\User\UserOAuth
+
+sylius_shop:
+    product_grid:
+        include_all_descendants: true
+
+sylius_theme:
+    sources:
+        filesystem:
+            scan_depth: 1
+            directories:
+                - "%kernel.project_dir%/themes"

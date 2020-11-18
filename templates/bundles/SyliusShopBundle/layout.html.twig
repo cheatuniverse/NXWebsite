@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="{{ app.request.locale|slice(0, 2) }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>{% block title %}{{ sylius.channel.name }}{% endblock %}</title>
+
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    {% block metatags %}
+    {% endblock %}
+    <link rel="stylesheet" href="/assets/shop/css/main.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+
+    {{ sylius_template_event('sylius.shop.layout.head') }}
+</head>
+
+<body class="leading-normal tracking-normal text-indigo-400 m-6 bg-gray-900">
+    <div class="h-full">
+
+        {% block top %}
+            <div id="menu" class="ui large sticky inverted stackable menu">
+                {{ sylius_template_event('sylius.shop.layout.topbar') }}
+            </div>
+        {% endblock %}
+
+        {% include '@SyliusShop/_flashes.html.twig' %}
+
+        {{ sylius_template_event('sylius.shop.layout.before_content') }}
+
+        {% block content %}
+        {% endblock %}
+
+        {{ sylius_template_event('sylius.shop.layout.after_content') }}
+    </div>
+</body>
+</html>

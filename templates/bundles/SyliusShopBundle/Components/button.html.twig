@@ -1,0 +1,3 @@
+<button{% if submit is defined %} type="submit"{% endif %} class="{% if full is defined %}w-full {% endif %}{% if classnames is defined %}{{ classnames }} {% endif %}focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out text-white px-4 py-2 rounded bg-indigo-500 hover:bg-indigo-600 text-white md:text-xl">
+    {{ text|raw }}
+</button>
