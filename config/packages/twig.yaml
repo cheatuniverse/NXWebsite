@@ -2,7 +2,7 @@ twig:
     paths: ['%kernel.project_dir%/templates']
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
-    global:
+    globals:
         client_download_url: '%env(CLIENT_URL)%'
 
 services:
