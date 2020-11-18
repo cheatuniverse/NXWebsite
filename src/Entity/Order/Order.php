@@ -17,7 +17,7 @@ class Order extends BaseOrder
     /**
      * @var License|null
      * @ORM\JoinColumn(name="license_id", nullable=true)
-     * @ORM\OneToOne(targetEntity=License::class, inversedBy="order")
+     * @ORM\OneToOne(targetEntity=License::class, inversedBy="order", cascade={"persist"})
      */
     private $license;
 
