@@ -17,6 +17,7 @@ services:
       - APP_DEBUG=1
       - APP_SECRET=EDITME
       - DATABASE_URL=mysql://sylius:nopassword@mysql/sylius
+      - JWT_PASSPHRASE=${JWT_PASSPHRASE}
       - MAILER_URL=smtp://mailhog:1025
       - PHP_DATE_TIMEZONE=${PHP_DATE_TIMEZONE:-UTC}
     volumes:

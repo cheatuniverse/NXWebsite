@@ -13,8 +13,9 @@ services:
     environment:
       - APP_ENV=prod
       - APP_DEBUG=0
-      - APP_SECRET=EDITME
+      - APP_SECRET=${APP_SECRET}
       - DATABASE_URL=mysql://${DB_USER}:${DB_PASS}@db/sylius_%kernel.environment%
+      - JWT_PASSPHRASE=${JWT_PASSPHRASE}
       - MAILER_URL=gmail://${MAILER_USER}:${MAILER_PASS}@localhost
       - PHP_DATE_TIMEZONE=${PHP_DATE_TIMEZONE:-UTC}
     volumes:

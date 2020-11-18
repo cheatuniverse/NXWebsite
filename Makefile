@@ -25,6 +25,10 @@ composer-install: ## Install composer packages
 composer-update: ## Update composer
 	$(DC_EXEC) composer update
 
+copy-files-prod: ## Copy prod files to dev
+	cp .env.prod .env
+	cp docker-compose.prod.yml docker-compose.yml
+
 create-network: ## Create docker network if not exists
 	docker network create nxclient_website || true
 
