@@ -14,7 +14,10 @@ build: ## Build
 	$(DC_UP)
 
 build-assets: ## Build assets for production
-	$(DC_EXEC) yarn encore production
+	yarn encore production
+	rm -r ./public/build/shop || true
+	scp -r ./public/media/shop ./public/build/shop
+	$(MAKE) cache
 
 cache: ## Clear cache
 	$(BIN_CONSOLE) cache:clear

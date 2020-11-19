@@ -1,47 +1,54 @@
-const path = require('path');
 const Encore = require('@symfony/webpack-encore');
+const PurgeCssPlugin = require('purgecss-webpack-plugin');
+const path = require('path');
+const glob = require('glob-all');
+const _ = require('lodash');
 
-const syliusBundles = path.resolve(__dirname, 'vendor/sylius/sylius/src/Sylius/Bundle/');
-const uiBundleScripts = path.resolve(syliusBundles, 'UiBundle/Resources/private/js/');
-const uiBundleResources = path.resolve(syliusBundles, 'UiBundle/Resources/private/');
 
-// Shop config
+const isProduction = Encore.isProduction();
+
 Encore
-  .setOutputPath('public/build/shop/')
-  .setPublicPath('/build/shop')
+  .setOutputPath('public/media/shop/')
+  .setPublicPath('/media/shop')
+  .copyFiles({
+    from: './assets/images',
+  })
   .addEntry('shop-entry', './assets/shop/entry.js')
   .disableSingleRuntimeChunk()
   .cleanupOutputBeforeBuild()
-  .enableSourceMaps(!Encore.isProduction())
-  .enableVersioning(Encore.isProduction())
-  .enableSassLoader();
+  .enableSourceMaps(!isProduction)
+  .enableVersioning(isProduction)
+  .enableBuildNotifications(!isProduction)
+  .enablePostCssLoader();
 
-const shopConfig = Encore.getWebpackConfig();
 
-shopConfig.resolve.alias['sylius/ui'] = uiBundleScripts;
-shopConfig.resolve.alias['sylius/ui-resources'] = uiBundleResources;
-shopConfig.resolve.alias['sylius/bundle'] = syliusBundles;
-shopConfig.name = 'shop';
+if (isProduction) {
+  Encore.addPlugin(new PurgeCssPlugin({
+    paths: glob.sync([
+      path.join(__dirname, 'themes/**/views/**/*.html.twig'),
+      path.join(__dirname, 'themes/**/assets/**/*.js'),
 
-Encore.reset();
+      path.join(__dirname, 'vendor/**/Resources/**/*.html.twig'),
+      path.join(__dirname, 'templates/**/Resources/**/*.html.twig'),
+    ]),
+    extractors: [
+      {
+        extractor: class {
+          static extract(content) {
+            return content.match(/[A-z0-9-_:/]+/g) || [];
+          }
+        },
+        extensions: [
+          'twig',
+          'js',
+        ],
+        whitelistPatterns: [
+        ],
+      },
+    ],
+  }));
+}
 
-// Admin config
-Encore
-  .setOutputPath('public/build/admin/')
-  .setPublicPath('/build/admin')
-  .addEntry('admin-entry', './assets/admin/entry.js')
-  .disableSingleRuntimeChunk()
-  .cleanupOutputBeforeBuild()
-  .enableSourceMaps(!Encore.isProduction())
-  .enableVersioning(Encore.isProduction())
-  .enableSassLoader();
-
-const adminConfig = Encore.getWebpackConfig();
-
-adminConfig.resolve.alias['sylius/ui'] = uiBundleScripts;
-adminConfig.resolve.alias['sylius/ui-resources'] = uiBundleResources;
-adminConfig.resolve.alias['sylius/bundle'] = syliusBundles;
-adminConfig.externals = Object.assign({}, adminConfig.externals, { window: 'window', document: 'document' });
-adminConfig.name = 'admin';
-
-module.exports = [shopConfig, adminConfig];
+const config = Encore.getWebpackConfig();
+config.name = 'shop';
+module.exports = config;
