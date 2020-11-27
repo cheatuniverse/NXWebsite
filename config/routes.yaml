@@ -22,16 +22,16 @@ sylius_shop_order_show:
     route: sylius_shop_homepage
 
 app_admin_launcher:
+  prefix: /admin
   resource: |
     alias: app.launcher
     section: admin
-    path: admin
-    templates: "@SyliusAdmin\\Crud"
-    redirect: update
+    templates: SyliusAdminBundle:Crud
     grid: app_admin_launcher
+    redirect: update
     vars:
-        all:
-            subheader: app.ui.launcher
-        index:
-            icon: 'file image outline'
+      all:
+        subheader: app.ui.launcher
+      index:
+        icon: 'file image outline'
   type: sylius.resource

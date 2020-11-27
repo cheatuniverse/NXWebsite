@@ -13,7 +13,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Shop;
 
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Launcher;
+use App\Repository\LauncherRepository;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,17 +24,28 @@ final class HomepageController
     /** @var EngineInterface */
     private $templatingEngine;
 
-    /** @var EntityManagerInterface */
-    private $manager;
+    /** @var LauncherRepository */
+    private $repository;
 
-    public function __construct(EngineInterface $templatingEngine, EntityManagerInterface $manager)
+    public function __construct(EngineInterface $templatingEngine, LauncherRepository $repository)
     {
         $this->templatingEngine = $templatingEngine;
-        $this->manager = $manager;
+        $this->repository = $repository;
     }
 
-    public function indexAction(Request $request): Response
+    public function indexAction(): Response
     {
-        return $this->templatingEngine->renderResponse('bundles/SyliusShopBundle/Layout/Homepage/index.html.twig');
+        $latestLauncher = $this->repository->findOneBy([], ['id' => 'ASC']);
+
+        if (!$latestLauncher instanceof Launcher) {
+            $latestLauncher = new Launcher();
+            $latestLauncher->setLink('#');
+            $latestLauncher->setVersion('');
+        }
+
+        return $this->templatingEngine->renderResponse(
+            'bundles/SyliusShopBundle/Layout/Homepage/index.html.twig',
+            ['launcher' => $latestLauncher]
+        );
     }
 }

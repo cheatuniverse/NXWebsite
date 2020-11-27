@@ -1,6 +1,6 @@
 sylius_resource:
   resources:
-    app.supplier:
+    app.launcher:
       driver: doctrine/orm # You can use also different driver here
       classes:
         model: App\Entity\Launcher

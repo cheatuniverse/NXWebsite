@@ -6,11 +6,11 @@
             <h1 class="my-4 text-3xl md:text-5xl text-white opacity-75 font-bold leading-tight text-center md:text-left">
                 Try the
                 <span class="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-pink-500 to-purple-500">
-                      NXClient
-                    </span>,<br/>
+                    NXClient {{ launcher.version }}</span>,
+                <br/>
                 the best cheat for hypixel
             </h1>
-            <a href="{{ client_download_url }}">
+            <a target="_blank" rel="noreferrer nofollow noopener" href="{{ launcher.link }}">
                 {% include '@SyliusShop/Components/button.html.twig' with { classnames: 'lg:mt-8 mx-auto lg:ml-2 focus:outline-none mb-8', text: 'Download it' } %}
             </a>
         </div>

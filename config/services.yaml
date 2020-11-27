@@ -47,13 +47,8 @@ services:
 
     sylius.controller.shop.homepage:
         class: App\Controller\Shop\HomepageController
-        arguments: ['@templating', '@doctrine.orm.default_entity_manager']
+        arguments: ['@templating', '@App\Repository\LauncherRepository']
         tags: ['controller.service_arguments']
 
     winzou\Bundle\StateMachineBundle\Command\winzouStateMachineDebugCommand:
         tags: ['console.command']
-
-    app.listener.admin.menu_builder:
-        class: App\Menu\AdminMenuListener
-        tags:
-            - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }

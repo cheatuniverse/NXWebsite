@@ -35,7 +35,7 @@ class Launcher implements ResourceInterface
      */
     private $link;
 
-    public function getVersion(): string
+    public function getVersion(): ?string
     {
         return $this->version;
     }
@@ -43,10 +43,11 @@ class Launcher implements ResourceInterface
     public function setVersion(string $version): self
     {
         $this->version = $version;
+
         return $this;
     }
 
-    public function getLink(): string
+    public function getLink(): ?string
     {
         return $this->link;
     }
@@ -54,6 +55,7 @@ class Launcher implements ResourceInterface
     public function setLink(string $link): self
     {
         $this->link = $link;
+
         return $this;
     }
 }
