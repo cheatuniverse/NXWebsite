@@ -11,7 +11,7 @@
         <div class="w-full md:w-1/2 py-8 m-auto">
             {{ sylius_template_event('sylius.shop.checkout.address.before_form', {'order': order}) }}
 
-            {{ form_start(form, {'action': path('sylius_shop_checkout_address'), 'attr': {'class': 'ui loadable form', 'novalidate': 'novalidate'}}) }}
+            {{ form_start(form, {'action': path('sylius_shop_checkout_address'), 'attr': {'novalidate': 'novalidate'}}) }}
             {{ form_errors(form) }}
             <input type="hidden" name="_method" value="PUT" />
 

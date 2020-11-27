@@ -10,8 +10,7 @@
 
 {% block content %}
     {% if not cart.empty %}
-        {{ sylius_template_event('sylius.shop.cart.header', {'header': header, 'cart': cart}) }}
-        <div class="flex flex-wrap">
+        <div class="flex flex-wrap pt-16">
             <div class="w-full xl:w-3/4 py-6">
                 {{ sylius_template_event('sylius.shop.cart.items', {'cart': cart, 'form': form}) }}
             </div>
@@ -20,6 +19,8 @@
             </div>
         </div>
     {% else %}
-        {{ messages.info('sylius.ui.your_cart_is_empty') }}
+        <div class="pt-48 text-3xl text-center">
+            {{ messages.info('sylius.ui.your_cart_is_empty') }}
+        </div>
     {% endif %}
 {% endblock %}

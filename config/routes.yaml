@@ -2,3 +2,36 @@ serial.validator:
   path: /serial/validate
   controller: App\Controller\SerialValidator
   methods: [ POST ]
+
+sylius_shop_account_dashboard:
+  path: /{_locale}/account/dashboard
+  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+  defaults:
+    route: sylius_shop_homepage
+
+sylius_shop_order_thank_you:
+  path: /{_locale}/order/thank-you
+  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+  defaults:
+    route: sylius_shop_homepage
+
+sylius_shop_order_show:
+  path: /{_locale}/thank-you
+  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+  defaults:
+    route: sylius_shop_homepage
+
+app_admin_launcher:
+  resource: |
+    alias: app.launcher
+    section: admin
+    path: admin
+    templates: "@SyliusAdmin\\Crud"
+    redirect: update
+    grid: app_admin_launcher
+    vars:
+        all:
+            subheader: app.ui.launcher
+        index:
+            icon: 'file image outline'
+  type: sylius.resource

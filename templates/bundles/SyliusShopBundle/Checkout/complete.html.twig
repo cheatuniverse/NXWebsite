@@ -8,8 +8,6 @@
     {{ sylius_template_event(['sylius.shop.checkout.complete.steps', 'sylius.shop.checkout.steps'], _context|merge({'active': 'complete', 'orderTotal': order.total})) }}
 
     <div class="pt-48">
-        {% include '@SyliusShop/_flashes.html.twig' %}
-
         <h1 class="text-white text-3xl text-center pb-6">Last step {{ order.customer.email }}</h1>
         {{ form_start(form, {'action': path('sylius_shop_checkout_complete'), 'attr': {'class': 'text-center', 'novalidate': 'novalidate'}}) }}
             {{ form_errors(form) }}

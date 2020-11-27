@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Shop;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,9 +23,13 @@ final class HomepageController
     /** @var EngineInterface */
     private $templatingEngine;
 
-    public function __construct(EngineInterface $templatingEngine)
+    /** @var EntityManagerInterface */
+    private $manager;
+
+    public function __construct(EngineInterface $templatingEngine, EntityManagerInterface $manager)
     {
         $this->templatingEngine = $templatingEngine;
+        $this->manager = $manager;
     }
 
     public function indexAction(Request $request): Response
